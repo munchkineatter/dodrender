@@ -28,8 +28,8 @@
         .container {
             display: flex;
             height: 100vh;
-            padding: 2vh 4vw;
-            gap: 4vw;
+            padding: 3vh 3vw;
+            gap: 2vw;
         }
 
         /* Prize columns */
@@ -40,17 +40,19 @@
             justify-content: space-evenly;
         }
 
-        .prize-column.left {
+        .prize-column:nth-child(1),
+        .prize-column:nth-child(2) {
             align-items: flex-start;
         }
 
-        .prize-column.right {
+        .prize-column:nth-child(3),
+        .prize-column:nth-child(4) {
             align-items: flex-end;
         }
 
         /* Prize values */
         .prize-value {
-            font-size: clamp(2rem, 7vh, 5rem);
+            font-size: clamp(1.8rem, 12vh, 4.5rem);
             font-weight: 900;
             color: #e63c2f;
             text-shadow: 
@@ -114,11 +116,10 @@
 <body>
     <!-- Main container -->
     <div class="container">
-        <!-- Left column - lower values -->
-        <div class="prize-column left" id="leftColumn"></div>
-
-        <!-- Right column - higher values -->
-        <div class="prize-column right" id="rightColumn"></div>
+        <div class="prize-column" id="col1"></div>
+        <div class="prize-column" id="col2"></div>
+        <div class="prize-column" id="col3"></div>
+        <div class="prize-column" id="col4"></div>
     </div>
 
     <!-- Status indicator -->
@@ -128,10 +129,12 @@
     </div>
 
     <script>
-        // Prize values - Left column (lower) and Right column (higher)
-        const LEFT_PRIZES = [1500, 2000, 2200, 2400, 2500, 2600, 2800, 3000, 3200, 3400];
-        const RIGHT_PRIZES = [3800, 4000, 4200, 4400, 4500, 4800, 5000, 6000, 7500, 10000];
-        const ALL_PRIZES = [...LEFT_PRIZES, ...RIGHT_PRIZES];
+        // Prize values split into 4 columns (5 prizes each)
+        const COL1_PRIZES = [1500, 2000, 2200, 2400, 2500];
+        const COL2_PRIZES = [2600, 2800, 3000, 3200, 3400];
+        const COL3_PRIZES = [3800, 4000, 4200, 4400, 4500];
+        const COL4_PRIZES = [4800, 5000, 6000, 7500, 10000];
+        const ALL_PRIZES = [...COL1_PRIZES, ...COL2_PRIZES, ...COL3_PRIZES, ...COL4_PRIZES];
 
         // Track eliminated prizes
         let eliminatedPrizes = new Set();
@@ -143,32 +146,25 @@
 
         // Create prize columns
         function createPrizeBoard() {
-            const leftColumn = document.getElementById('leftColumn');
-            const rightColumn = document.getElementById('rightColumn');
+            const columns = [
+                { el: document.getElementById('col1'), prizes: COL1_PRIZES },
+                { el: document.getElementById('col2'), prizes: COL2_PRIZES },
+                { el: document.getElementById('col3'), prizes: COL3_PRIZES },
+                { el: document.getElementById('col4'), prizes: COL4_PRIZES }
+            ];
             
-            leftColumn.innerHTML = '';
-            rightColumn.innerHTML = '';
-            
-            LEFT_PRIZES.forEach(prize => {
-                const div = document.createElement('div');
-                div.className = 'prize-value';
-                div.id = `prize-${prize}`;
-                div.textContent = formatCurrency(prize);
-                if (eliminatedPrizes.has(prize)) {
-                    div.classList.add('eliminated');
-                }
-                leftColumn.appendChild(div);
-            });
-            
-            RIGHT_PRIZES.forEach(prize => {
-                const div = document.createElement('div');
-                div.className = 'prize-value';
-                div.id = `prize-${prize}`;
-                div.textContent = formatCurrency(prize);
-                if (eliminatedPrizes.has(prize)) {
-                    div.classList.add('eliminated');
-                }
-                rightColumn.appendChild(div);
+            columns.forEach(col => {
+                col.el.innerHTML = '';
+                col.prizes.forEach(prize => {
+                    const div = document.createElement('div');
+                    div.className = 'prize-value';
+                    div.id = `prize-${prize}`;
+                    div.textContent = formatCurrency(prize);
+                    if (eliminatedPrizes.has(prize)) {
+                        div.classList.add('eliminated');
+                    }
+                    col.el.appendChild(div);
+                });
             });
         }
 
