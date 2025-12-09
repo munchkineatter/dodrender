@@ -1,0 +1,132 @@
+========================================================
+    PRIZE DISPLAY SETUP - RENDER HOSTING
+    Deal or No Deal - Christmas Edition
+========================================================
+
+STEP 1: DEPLOY TO RENDER
+------------------------
+1. Go to https://github.com and create a free account (if you don't have one)
+
+2. Create a new repository:
+   - Click the "+" icon > "New repository"
+   - Name it "prize-display"
+   - Make it Public
+   - Click "Create repository"
+
+3. Upload the files from "prize-display-render" folder to your GitHub repo:
+   - Click "uploading an existing file"
+   - Drag and drop ALL files from prize-display-render folder:
+     * server.js
+     * package.json
+     * render.yaml
+     * public/index.html
+   - Click "Commit changes"
+
+4. Go to https://render.com and create a free account
+
+5. Click "New" > "Web Service"
+
+6. Connect your GitHub account and select your "prize-display" repository
+
+7. Configure the service:
+   - Name: prize-display (or any name you like)
+   - Region: Choose closest to you
+   - Branch: main
+   - Build Command: npm install
+   - Start Command: npm start
+   - Plan: Free
+
+8. Click "Create Web Service"
+
+9. Wait for deployment (2-3 minutes)
+
+10. Your URL will be shown at the top, like:
+    https://prize-display-xxxx.onrender.com
+
+
+STEP 2: UPDATE VBA CODE WITH YOUR URL
+-------------------------------------
+1. Copy your Render URL (e.g., https://prize-display-xxxx.onrender.com)
+
+2. Open the ExportGameState.bas file
+
+3. Find this line near the top:
+   Public Const RENDER_URL As String = "https://YOUR-APP-NAME.onrender.com"
+
+4. Replace YOUR-APP-NAME with your actual Render URL
+
+5. Add the module to your Excel workbook:
+   - Open Excel, press Alt+F11
+   - Right-click project > Insert > Module
+   - Paste the updated code
+
+
+STEP 3: UPDATE GAMEBOARD.CLS
+----------------------------
+Make sure your Gameboard.cls has this line after the prize strikethrough loop:
+
+        ExportGameStateToJSON
+
+
+STEP 4: TEST THE CONNECTION
+---------------------------
+1. In Excel, press Alt+F11 to open VBA Editor
+2. Press Ctrl+G to open Immediate Window
+3. Type: WakeUpServer
+4. Press Enter
+5. You should see "Server is awake and ready!"
+
+6. Type: TestEliminatePrizes
+7. Press Enter
+8. Check your Render URL in a browser - 3 prizes should be crossed out!
+
+9. Type: ResetGameDisplay
+10. Press Enter to reset
+
+
+STEP 5: OPEN THE DISPLAY
+------------------------
+On your second monitor, open a browser to your Render URL:
+https://prize-display-xxxx.onrender.com
+
+The display will update in real-time when you play the game!
+
+
+IMPORTANT NOTES
+---------------
+
+1. FREE TIER SLEEP:
+   - Render's free tier "sleeps" after 15 minutes of inactivity
+   - First request after sleep takes ~30 seconds to wake up
+   - Run "WakeUpServer" from VBA before starting a game session
+
+2. KEEP IT AWAKE DURING GAME:
+   - The web browser viewing the display keeps it awake
+   - Just make sure the browser tab is open before the game
+
+3. INTERNET REQUIRED:
+   - Both Excel PC and display browser need internet
+
+
+TROUBLESHOOTING
+---------------
+
+"Server not responding":
+- Server may be sleeping. Run WakeUpServer and wait 30 seconds
+- Check your internet connection
+- Verify the RENDER_URL in VBA is correct
+
+"Error 404":
+- Make sure all files were uploaded to GitHub correctly
+- Check that Render deployed successfully
+
+"Display not updating":
+- Check the browser console for errors (F12)
+- Verify ExportGameStateToJSON is being called in your code
+- Try TestEliminatePrizes to test the connection
+
+
+========================================================
+    Enjoy your game! 🎄🎅
+========================================================
+

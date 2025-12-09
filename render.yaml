@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: prize-display
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+

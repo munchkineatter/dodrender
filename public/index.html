@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deal or No Deal - Prize Board</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a472a 0%, #0d2818 50%, #1a472a 100%);
+            font-family: 'Quicksand', sans-serif;
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Snowflakes */
+        .snowflakes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -20px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.5rem;
+            animation: fall linear infinite;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-20px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0.3;
+            }
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-family: 'Mountains of Christmas', cursive;
+            font-size: 4rem;
+            color: #ffd700;
+            text-shadow: 
+                3px 3px 6px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(255, 215, 0, 0.3);
+            margin-bottom: 0.5rem;
+        }
+
+        .header .subtitle {
+            font-size: 1.5rem;
+            color: #c41e3a;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Prize board */
+        .prize-board {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            max-width: 1200px;
+            width: 100%;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            border: 3px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 
+                0 10px 40px rgba(0, 0, 0, 0.4),
+                inset 0 0 60px rgba(255, 215, 0, 0.05);
+        }
+
+        /* Prize card */
+        .prize-card {
+            background: linear-gradient(145deg, #c41e3a, #8b0000);
+            border-radius: 12px;
+            padding: 1.25rem 1rem;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            border: 3px solid #ffd700;
+            box-shadow: 
+                0 4px 15px rgba(0, 0, 0, 0.3),
+                inset 0 2px 10px rgba(255, 255, 255, 0.1);
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .prize-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .prize-card:not(.eliminated):hover::before {
+            left: 100%;
+        }
+
+        .prize-card.eliminated {
+            background: linear-gradient(145deg, #3a3a3a, #1a1a1a);
+            border-color: #555;
+            color: #666;
+            transform: scale(0.95);
+            box-shadow: none;
+        }
+
+        .prize-card.eliminated .prize-value {
+            text-decoration: line-through;
+            text-decoration-color: #c41e3a;
+            text-decoration-thickness: 3px;
+        }
+
+        .prize-value {
+            display: block;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Decorative elements */
+        .ornament {
+            position: fixed;
+            font-size: 3rem;
+            opacity: 0.6;
+            z-index: 5;
+        }
+
+        .ornament.top-left {
+            top: 20px;
+            left: 20px;
+        }
+
+        .ornament.top-right {
+            top: 20px;
+            right: 20px;
+        }
+
+        .ornament.bottom-left {
+            bottom: 20px;
+            left: 20px;
+        }
+
+        .ornament.bottom-right {
+            bottom: 20px;
+            right: 20px;
+        }
+
+        /* Status indicator */
+        .status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            z-index: 100;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4ade80;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.disconnected {
+            background: #ef4444;
+            animation: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Remaining count */
+        .remaining-count {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            border: 2px solid #ffd700;
+            z-index: 100;
+            text-align: center;
+        }
+
+        .remaining-count .label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 0.25rem;
+        }
+
+        .remaining-count .count {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffd700;
+        }
+    </style>
+</head>
+<body>
+    <!-- Snowflakes -->
+    <div class="snowflakes" id="snowflakes"></div>
+
+    <!-- Decorative ornaments -->
+    <div class="ornament top-left">🎄</div>
+    <div class="ornament top-right">⭐</div>
+    <div class="ornament bottom-left">🎁</div>
+    <div class="ornament bottom-right">🔔</div>
+
+    <!-- Remaining count -->
+    <div class="remaining-count">
+        <div class="label">Prizes Remaining</div>
+        <div class="count" id="remainingCount">17</div>
+    </div>
+
+    <!-- Main container -->
+    <div class="container">
+        <header class="header">
+            <h1>🎅 Prize Board 🎄</h1>
+            <p class="subtitle">Stuff Your Stockings!</p>
+        </header>
+
+        <div class="prize-board" id="prizeBoard">
+            <!-- Prizes will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Status indicator -->
+    <div class="status">
+        <div class="status-dot" id="statusDot"></div>
+        <span id="statusText">Connected</span>
+    </div>
+
+    <script>
+        // All prize values
+        const ALL_PRIZES = [
+            1500, 2000, 2200, 2400, 2500, 2600, 2800, 
+            3000, 3200, 3400, 3800, 4000, 4200, 4400, 
+            4500, 4800, 5000
+        ];
+
+        // Track eliminated prizes
+        let eliminatedPrizes = new Set();
+
+        // Format currency
+        function formatCurrency(value) {
+            return '$' + value.toLocaleString();
+        }
+
+        // Create prize cards
+        function createPrizeBoard() {
+            const board = document.getElementById('prizeBoard');
+            board.innerHTML = '';
+            
+            ALL_PRIZES.forEach(prize => {
+                const card = document.createElement('div');
+                card.className = 'prize-card';
+                card.id = `prize-${prize}`;
+                card.innerHTML = `<span class="prize-value">${formatCurrency(prize)}</span>`;
+                
+                if (eliminatedPrizes.has(prize)) {
+                    card.classList.add('eliminated');
+                }
+                
+                board.appendChild(card);
+            });
+            
+            updateRemainingCount();
+        }
+
+        // Update remaining count
+        function updateRemainingCount() {
+            const remaining = ALL_PRIZES.length - eliminatedPrizes.size;
+            document.getElementById('remainingCount').textContent = remaining;
+        }
+
+        // Fetch game state from API
+        async function fetchGameState() {
+            try {
+                const response = await fetch('/api/gamestate');
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Update eliminated prizes
+                    eliminatedPrizes = new Set(data.eliminatedPrizes || []);
+                    
+                    // Update all cards
+                    ALL_PRIZES.forEach(prize => {
+                        const card = document.getElementById(`prize-${prize}`);
+                        if (card) {
+                            if (eliminatedPrizes.has(prize)) {
+                                card.classList.add('eliminated');
+                            } else {
+                                card.classList.remove('eliminated');
+                            }
+                        }
+                    });
+                    
+                    updateRemainingCount();
+                    setStatus(true);
+                } else {
+                    setStatus(false);
+                }
+            } catch (error) {
+                console.log('Error fetching game state:', error);
+                setStatus(false);
+            }
+        }
+
+        // Set connection status
+        function setStatus(connected) {
+            const dot = document.getElementById('statusDot');
+            const text = document.getElementById('statusText');
+            
+            if (connected) {
+                dot.classList.remove('disconnected');
+                text.textContent = 'Connected';
+            } else {
+                dot.classList.add('disconnected');
+                text.textContent = 'Reconnecting...';
+            }
+        }
+
+        // Create snowflakes
+        function createSnowflakes() {
+            const container = document.getElementById('snowflakes');
+            const snowflakeChars = ['❄', '❅', '❆', '✻', '✼'];
+            
+            for (let i = 0; i < 50; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.textContent = snowflakeChars[Math.floor(Math.random() * snowflakeChars.length)];
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.fontSize = (Math.random() * 1.5 + 0.5) + 'rem';
+                snowflake.style.animationDuration = (Math.random() * 10 + 5) + 's';
+                snowflake.style.animationDelay = (Math.random() * 10) + 's';
+                snowflake.style.opacity = Math.random() * 0.6 + 0.2;
+                container.appendChild(snowflake);
+            }
+        }
+
+        // Initialize
+        createPrizeBoard();
+        createSnowflakes();
+        
+        // Poll for updates every 500ms
+        setInterval(fetchGameState, 500);
+        fetchGameState();
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,21 @@
+{
+  "name": "prize-display",
+  "version": "1.0.0",
+  "description": "Deal or No Deal Prize Display - Christmas Edition",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  },
+  "keywords": ["deal-or-no-deal", "game", "christmas"],
+  "author": "",
+  "license": "ISC"
+}
+
