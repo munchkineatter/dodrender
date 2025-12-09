@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deal or No Deal - Prize Board</title>
+    <title>Stuff Your Stocking - Prize Board</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Passion+One:wght@700;900&family=Bangers&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -16,43 +16,61 @@
 
         body {
             min-height: 100vh;
-            background: linear-gradient(135deg, #1a472a 0%, #0d2818 50%, #1a472a 100%);
-            font-family: 'Quicksand', sans-serif;
-            color: #fff;
+            background: linear-gradient(180deg, #2d8f4e 0%, #1a5c32 50%, #0f3d1f 100%);
+            font-family: 'Passion One', cursive;
             overflow: hidden;
             position: relative;
         }
 
-        /* Snowflakes */
-        .snowflakes {
+        /* Money border pattern */
+        .money-border {
             position: fixed;
             top: 0;
+            bottom: 0;
+            width: 120px;
+            background: 
+                repeating-linear-gradient(
+                    15deg,
+                    rgba(133, 187, 101, 0.3) 0px,
+                    rgba(133, 187, 101, 0.3) 2px,
+                    transparent 2px,
+                    transparent 8px
+                ),
+                linear-gradient(90deg, 
+                    rgba(0,0,0,0.4) 0%, 
+                    transparent 100%
+                );
+            z-index: 5;
+        }
+
+        .money-border.left {
             left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            overflow: hidden;
+            background: 
+                repeating-linear-gradient(
+                    -15deg,
+                    rgba(133, 187, 101, 0.4) 0px,
+                    rgba(133, 187, 101, 0.4) 3px,
+                    transparent 3px,
+                    transparent 12px
+                ),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='60'%3E%3Crect fill='%2385bb65' width='100' height='60' rx='5'/%3E%3Crect fill='%236b9b4f' x='5' y='5' width='90' height='50' rx='3'/%3E%3Ctext x='50' y='38' text-anchor='middle' fill='%23a8d48a' font-size='20' font-weight='bold'%3E$100%3C/text%3E%3C/svg%3E") repeat,
+                linear-gradient(90deg, rgba(20,60,30,0.9) 0%, rgba(30,80,40,0.6) 100%);
+            background-size: auto, 80px 48px, auto;
         }
 
-        .snowflake {
-            position: absolute;
-            top: -20px;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1.5rem;
-            animation: fall linear infinite;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-        }
-
-        @keyframes fall {
-            0% {
-                transform: translateY(-20px) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0.3;
-            }
+        .money-border.right {
+            right: 0;
+            background: 
+                repeating-linear-gradient(
+                    15deg,
+                    rgba(133, 187, 101, 0.4) 0px,
+                    rgba(133, 187, 101, 0.4) 3px,
+                    transparent 3px,
+                    transparent 12px
+                ),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='60'%3E%3Crect fill='%2385bb65' width='100' height='60' rx='5'/%3E%3Crect fill='%236b9b4f' x='5' y='5' width='90' height='50' rx='3'/%3E%3Ctext x='50' y='38' text-anchor='middle' fill='%23a8d48a' font-size='20' font-weight='bold'%3E$100%3C/text%3E%3C/svg%3E") repeat,
+                linear-gradient(270deg, rgba(20,60,30,0.9) 0%, rgba(30,80,40,0.6) 100%);
+            background-size: auto, 80px 48px, auto;
         }
 
         /* Main container */
@@ -60,148 +78,152 @@
             position: relative;
             z-index: 10;
             display: flex;
+            min-height: 100vh;
+            padding: 1.5rem 140px;
+        }
+
+        /* Prize columns */
+        .prize-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 0.4rem;
+        }
+
+        .prize-column.left {
+            align-items: flex-start;
+            padding-left: 2rem;
+        }
+
+        .prize-column.right {
+            align-items: flex-end;
+            padding-right: 2rem;
+        }
+
+        /* Center logo area */
+        .center-logo {
+            flex: 1.2;
+            display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            padding: 2rem;
+            padding: 1rem;
         }
 
-        /* Header */
-        .header {
+        .logo-container {
             text-align: center;
-            margin-bottom: 2rem;
+            position: relative;
         }
 
-        .header h1 {
-            font-family: 'Mountains of Christmas', cursive;
-            font-size: 4rem;
+        .stocking-image {
+            width: 280px;
+            height: auto;
+            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));
+            margin-bottom: -30px;
+        }
+
+        .logo-text {
+            position: relative;
+        }
+
+        .logo-text .stuff {
+            font-family: 'Bangers', cursive;
+            font-size: 4.5rem;
+            color: #ffffff;
+            text-shadow: 
+                4px 4px 0 #1a5c32,
+                -2px -2px 0 #1a5c32,
+                2px -2px 0 #1a5c32,
+                -2px 2px 0 #1a5c32,
+                0 6px 10px rgba(0,0,0,0.4);
+            letter-spacing: 0.1em;
+            display: block;
+            line-height: 0.9;
+        }
+
+        .logo-text .your {
+            font-family: 'Passion One', cursive;
+            font-size: 3rem;
             color: #ffd700;
             text-shadow: 
-                3px 3px 6px rgba(0, 0, 0, 0.5),
-                0 0 30px rgba(255, 215, 0, 0.3);
-            margin-bottom: 0.5rem;
-        }
-
-        .header .subtitle {
-            font-size: 1.5rem;
-            color: #c41e3a;
-            font-weight: 600;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Prize board */
-        .prize-board {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1rem;
-            max-width: 1200px;
-            width: 100%;
-            padding: 2rem;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-            border: 3px solid rgba(255, 215, 0, 0.3);
-            box-shadow: 
-                0 10px 40px rgba(0, 0, 0, 0.4),
-                inset 0 0 60px rgba(255, 215, 0, 0.05);
-        }
-
-        /* Prize card */
-        .prize-card {
-            background: linear-gradient(145deg, #c41e3a, #8b0000);
-            border-radius: 12px;
-            padding: 1.25rem 1rem;
-            text-align: center;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #fff;
-            border: 3px solid #ffd700;
-            box-shadow: 
-                0 4px 15px rgba(0, 0, 0, 0.3),
-                inset 0 2px 10px rgba(255, 255, 255, 0.1);
-            transition: all 0.5s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .prize-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .prize-card:not(.eliminated):hover::before {
-            left: 100%;
-        }
-
-        .prize-card.eliminated {
-            background: linear-gradient(145deg, #3a3a3a, #1a1a1a);
-            border-color: #555;
-            color: #666;
-            transform: scale(0.95);
-            box-shadow: none;
-        }
-
-        .prize-card.eliminated .prize-value {
-            text-decoration: line-through;
-            text-decoration-color: #c41e3a;
-            text-decoration-thickness: 3px;
-        }
-
-        .prize-value {
+                3px 3px 0 #8b4513,
+                -1px -1px 0 #8b4513,
+                1px -1px 0 #8b4513,
+                -1px 1px 0 #8b4513;
             display: block;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin: -0.3rem 0;
         }
 
-        /* Decorative elements */
-        .ornament {
-            position: fixed;
-            font-size: 3rem;
-            opacity: 0.6;
-            z-index: 5;
+        .logo-text .stocking {
+            font-family: 'Bangers', cursive;
+            font-size: 4rem;
+            color: #2d8f4e;
+            text-shadow: 
+                3px 3px 0 #ffffff,
+                -2px -2px 0 #ffffff,
+                2px -2px 0 #ffffff,
+                -2px 2px 0 #ffffff,
+                6px 6px 15px rgba(0,0,0,0.3);
+            letter-spacing: 0.05em;
+            display: block;
         }
 
-        .ornament.top-left {
-            top: 20px;
-            left: 20px;
+        /* Prize values */
+        .prize-value {
+            font-size: 3.2rem;
+            font-weight: 900;
+            color: #e63c2f;
+            text-shadow: 
+                3px 3px 0 #8b2500,
+                -1px -1px 0 #ffd700,
+                1px -1px 0 #ffd700,
+                -1px 1px 0 #ffd700,
+                1px 1px 0 #ffd700,
+                0 0 20px rgba(255, 100, 50, 0.3);
+            transition: all 0.4s ease;
+            line-height: 1.1;
+            letter-spacing: 0.02em;
         }
 
-        .ornament.top-right {
-            top: 20px;
-            right: 20px;
+        .prize-value.eliminated {
+            color: #4a4a4a;
+            text-shadow: 
+                2px 2px 0 #2a2a2a,
+                -1px -1px 0 #3a3a3a,
+                1px -1px 0 #3a3a3a,
+                -1px 1px 0 #3a3a3a;
+            opacity: 0.5;
+            transform: scale(0.9);
+            text-decoration: line-through;
+            text-decoration-color: #ff0000;
+            text-decoration-thickness: 4px;
         }
 
-        .ornament.bottom-left {
-            bottom: 20px;
-            left: 20px;
-        }
-
-        .ornament.bottom-right {
-            bottom: 20px;
-            right: 20px;
+        /* SVG Stocking */
+        .stocking-svg {
+            width: 220px;
+            height: 280px;
+            margin-bottom: -20px;
         }
 
         /* Status indicator */
         .status {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 15px;
+            right: 140px;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
             z-index: 100;
+            font-family: Arial, sans-serif;
         }
 
         .status-dot {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             background: #4ade80;
             animation: pulse 2s infinite;
@@ -217,57 +239,92 @@
             50% { opacity: 0.5; }
         }
 
-        /* Remaining count */
-        .remaining-count {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            border: 2px solid #ffd700;
-            z-index: 100;
-            text-align: center;
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .prize-value {
+                font-size: 2.5rem;
+            }
+            .logo-text .stuff {
+                font-size: 3.5rem;
+            }
+            .logo-text .your {
+                font-size: 2.5rem;
+            }
+            .logo-text .stocking {
+                font-size: 3rem;
+            }
+            .stocking-svg {
+                width: 180px;
+                height: 230px;
+            }
         }
 
-        .remaining-count .label {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 0.25rem;
-        }
-
-        .remaining-count .count {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #ffd700;
+        @media (max-width: 900px) {
+            .container {
+                padding: 1rem 100px;
+            }
+            .money-border {
+                width: 80px;
+            }
+            .prize-value {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Snowflakes -->
-    <div class="snowflakes" id="snowflakes"></div>
-
-    <!-- Decorative ornaments -->
-    <div class="ornament top-left">🎄</div>
-    <div class="ornament top-right">⭐</div>
-    <div class="ornament bottom-left">🎁</div>
-    <div class="ornament bottom-right">🔔</div>
-
-    <!-- Remaining count -->
-    <div class="remaining-count">
-        <div class="label">Prizes Remaining</div>
-        <div class="count" id="remainingCount">17</div>
-    </div>
+    <!-- Money borders -->
+    <div class="money-border left"></div>
+    <div class="money-border right"></div>
 
     <!-- Main container -->
     <div class="container">
-        <header class="header">
-            <h1>🎅 Prize Board 🎄</h1>
-            <p class="subtitle">Stuff Your Stockings!</p>
-        </header>
+        <!-- Left column - lower values -->
+        <div class="prize-column left" id="leftColumn">
+            <!-- Populated by JS -->
+        </div>
 
-        <div class="prize-board" id="prizeBoard">
-            <!-- Prizes will be populated by JavaScript -->
+        <!-- Center logo -->
+        <div class="center-logo">
+            <div class="logo-container">
+                <!-- Stocking SVG -->
+                <svg class="stocking-svg" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Stocking body -->
+                    <path d="M40 80 L40 160 Q40 200 70 220 L130 260 Q160 260 170 230 L170 200 Q170 170 140 160 L140 80" 
+                          fill="#c41e3a" stroke="#8b0000" stroke-width="3"/>
+                    <!-- Stocking toe highlight -->
+                    <path d="M70 220 Q90 240 130 255" stroke="#ff6b6b" stroke-width="8" fill="none" opacity="0.3"/>
+                    <!-- White fur cuff -->
+                    <ellipse cx="90" cy="85" rx="60" ry="25" fill="#ffffff"/>
+                    <ellipse cx="90" cy="80" rx="55" ry="20" fill="#f5f5f5"/>
+                    <!-- Fur texture -->
+                    <path d="M35 80 Q45 70 55 82 Q65 68 75 80 Q85 65 95 78 Q105 68 115 82 Q125 70 135 80 Q145 68 150 85" 
+                          stroke="#e8e8e8" stroke-width="3" fill="none"/>
+                    <!-- Money bills sticking out -->
+                    <rect x="50" y="20" width="70" height="35" rx="3" fill="#85bb65" transform="rotate(-15 85 37)"/>
+                    <rect x="55" y="25" width="60" height="25" rx="2" fill="#6b9b4f" transform="rotate(-15 85 37)"/>
+                    <text x="75" y="45" fill="#a8d48a" font-size="12" font-weight="bold" transform="rotate(-15 85 37)">$100</text>
+                    
+                    <rect x="70" y="10" width="70" height="35" rx="3" fill="#85bb65" transform="rotate(5 105 27)"/>
+                    <rect x="75" y="15" width="60" height="25" rx="2" fill="#6b9b4f" transform="rotate(5 105 27)"/>
+                    <text x="95" y="35" fill="#a8d48a" font-size="12" font-weight="bold" transform="rotate(5 105 27)">$100</text>
+                    
+                    <rect x="90" y="5" width="70" height="35" rx="3" fill="#85bb65" transform="rotate(20 125 22)"/>
+                    <rect x="95" y="10" width="60" height="25" rx="2" fill="#6b9b4f" transform="rotate(20 125 22)"/>
+                    <text x="115" y="30" fill="#a8d48a" font-size="12" font-weight="bold" transform="rotate(20 125 22)">$100</text>
+                </svg>
+                
+                <div class="logo-text">
+                    <span class="stuff">STUFF</span>
+                    <span class="your">YOUR</span>
+                    <span class="stocking">STOCKING</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right column - higher values -->
+        <div class="prize-column right" id="rightColumn">
+            <!-- Populated by JS -->
         </div>
     </div>
 
@@ -278,12 +335,10 @@
     </div>
 
     <script>
-        // All prize values
-        const ALL_PRIZES = [
-            1500, 2000, 2200, 2400, 2500, 2600, 2800, 
-            3000, 3200, 3400, 3800, 4000, 4200, 4400, 
-            4500, 4800, 5000
-        ];
+        // Prize values - Left column (lower) and Right column (higher)
+        const LEFT_PRIZES = [1500, 2000, 2200, 2400, 2500, 2600, 2800, 3000, 3200, 3400];
+        const RIGHT_PRIZES = [3800, 4000, 4200, 4400, 4500, 4800, 5000, 6000, 7500, 10000];
+        const ALL_PRIZES = [...LEFT_PRIZES, ...RIGHT_PRIZES];
 
         // Track eliminated prizes
         let eliminatedPrizes = new Set();
@@ -293,31 +348,35 @@
             return '$' + value.toLocaleString();
         }
 
-        // Create prize cards
+        // Create prize columns
         function createPrizeBoard() {
-            const board = document.getElementById('prizeBoard');
-            board.innerHTML = '';
+            const leftColumn = document.getElementById('leftColumn');
+            const rightColumn = document.getElementById('rightColumn');
             
-            ALL_PRIZES.forEach(prize => {
-                const card = document.createElement('div');
-                card.className = 'prize-card';
-                card.id = `prize-${prize}`;
-                card.innerHTML = `<span class="prize-value">${formatCurrency(prize)}</span>`;
-                
+            leftColumn.innerHTML = '';
+            rightColumn.innerHTML = '';
+            
+            LEFT_PRIZES.forEach(prize => {
+                const div = document.createElement('div');
+                div.className = 'prize-value';
+                div.id = `prize-${prize}`;
+                div.textContent = formatCurrency(prize);
                 if (eliminatedPrizes.has(prize)) {
-                    card.classList.add('eliminated');
+                    div.classList.add('eliminated');
                 }
-                
-                board.appendChild(card);
+                leftColumn.appendChild(div);
             });
             
-            updateRemainingCount();
-        }
-
-        // Update remaining count
-        function updateRemainingCount() {
-            const remaining = ALL_PRIZES.length - eliminatedPrizes.size;
-            document.getElementById('remainingCount').textContent = remaining;
+            RIGHT_PRIZES.forEach(prize => {
+                const div = document.createElement('div');
+                div.className = 'prize-value';
+                div.id = `prize-${prize}`;
+                div.textContent = formatCurrency(prize);
+                if (eliminatedPrizes.has(prize)) {
+                    div.classList.add('eliminated');
+                }
+                rightColumn.appendChild(div);
+            });
         }
 
         // Fetch game state from API
@@ -330,19 +389,18 @@
                     // Update eliminated prizes
                     eliminatedPrizes = new Set(data.eliminatedPrizes || []);
                     
-                    // Update all cards
+                    // Update all prize displays
                     ALL_PRIZES.forEach(prize => {
-                        const card = document.getElementById(`prize-${prize}`);
-                        if (card) {
+                        const el = document.getElementById(`prize-${prize}`);
+                        if (el) {
                             if (eliminatedPrizes.has(prize)) {
-                                card.classList.add('eliminated');
+                                el.classList.add('eliminated');
                             } else {
-                                card.classList.remove('eliminated');
+                                el.classList.remove('eliminated');
                             }
                         }
                     });
                     
-                    updateRemainingCount();
                     setStatus(true);
                 } else {
                     setStatus(false);
@@ -367,27 +425,8 @@
             }
         }
 
-        // Create snowflakes
-        function createSnowflakes() {
-            const container = document.getElementById('snowflakes');
-            const snowflakeChars = ['❄', '❅', '❆', '✻', '✼'];
-            
-            for (let i = 0; i < 50; i++) {
-                const snowflake = document.createElement('div');
-                snowflake.className = 'snowflake';
-                snowflake.textContent = snowflakeChars[Math.floor(Math.random() * snowflakeChars.length)];
-                snowflake.style.left = Math.random() * 100 + '%';
-                snowflake.style.fontSize = (Math.random() * 1.5 + 0.5) + 'rem';
-                snowflake.style.animationDuration = (Math.random() * 10 + 5) + 's';
-                snowflake.style.animationDelay = (Math.random() * 10) + 's';
-                snowflake.style.opacity = Math.random() * 0.6 + 0.2;
-                container.appendChild(snowflake);
-            }
-        }
-
         // Initialize
         createPrizeBoard();
-        createSnowflakes();
         
         // Poll for updates every 500ms
         setInterval(fetchGameState, 500);
@@ -395,4 +434,3 @@
     </script>
 </body>
 </html>
-
