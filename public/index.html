@@ -6,7 +6,7 @@
     <title>Stuff Your Stocking - Prize Board</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Passion+One:wght@700;900&family=Bangers&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Passion+One:wght@700;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,72 +14,22 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
         body {
-            min-height: 100vh;
             background: linear-gradient(180deg, #2d8f4e 0%, #1a5c32 50%, #0f3d1f 100%);
             font-family: 'Passion One', cursive;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* Money border pattern */
-        .money-border {
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            width: 120px;
-            background: 
-                repeating-linear-gradient(
-                    15deg,
-                    rgba(133, 187, 101, 0.3) 0px,
-                    rgba(133, 187, 101, 0.3) 2px,
-                    transparent 2px,
-                    transparent 8px
-                ),
-                linear-gradient(90deg, 
-                    rgba(0,0,0,0.4) 0%, 
-                    transparent 100%
-                );
-            z-index: 5;
-        }
-
-        .money-border.left {
-            left: 0;
-            background: 
-                repeating-linear-gradient(
-                    -15deg,
-                    rgba(133, 187, 101, 0.4) 0px,
-                    rgba(133, 187, 101, 0.4) 3px,
-                    transparent 3px,
-                    transparent 12px
-                ),
-                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='60'%3E%3Crect fill='%2385bb65' width='100' height='60' rx='5'/%3E%3Crect fill='%236b9b4f' x='5' y='5' width='90' height='50' rx='3'/%3E%3Ctext x='50' y='38' text-anchor='middle' fill='%23a8d48a' font-size='20' font-weight='bold'%3E$100%3C/text%3E%3C/svg%3E") repeat,
-                linear-gradient(90deg, rgba(20,60,30,0.9) 0%, rgba(30,80,40,0.6) 100%);
-            background-size: auto, 80px 48px, auto;
-        }
-
-        .money-border.right {
-            right: 0;
-            background: 
-                repeating-linear-gradient(
-                    15deg,
-                    rgba(133, 187, 101, 0.4) 0px,
-                    rgba(133, 187, 101, 0.4) 3px,
-                    transparent 3px,
-                    transparent 12px
-                ),
-                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='60'%3E%3Crect fill='%2385bb65' width='100' height='60' rx='5'/%3E%3Crect fill='%236b9b4f' x='5' y='5' width='90' height='50' rx='3'/%3E%3Ctext x='50' y='38' text-anchor='middle' fill='%23a8d48a' font-size='20' font-weight='bold'%3E$100%3C/text%3E%3C/svg%3E") repeat,
-                linear-gradient(270deg, rgba(20,60,30,0.9) 0%, rgba(30,80,40,0.6) 100%);
-            background-size: auto, 80px 48px, auto;
         }
 
         /* Main container */
         .container {
-            position: relative;
-            z-index: 10;
             display: flex;
-            min-height: 100vh;
-            padding: 1.5rem 140px;
+            height: 100vh;
+            padding: 2vh 4vw;
+            gap: 4vw;
         }
 
         /* Prize columns */
@@ -87,91 +37,20 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            gap: 0.4rem;
+            justify-content: space-evenly;
         }
 
         .prize-column.left {
             align-items: flex-start;
-            padding-left: 2rem;
         }
 
         .prize-column.right {
             align-items: flex-end;
-            padding-right: 2rem;
-        }
-
-        /* Center logo area */
-        .center-logo {
-            flex: 1.2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
-
-        .logo-container {
-            text-align: center;
-            position: relative;
-        }
-
-        .stocking-image {
-            width: 280px;
-            height: auto;
-            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));
-            margin-bottom: -30px;
-        }
-
-        .logo-text {
-            position: relative;
-        }
-
-        .logo-text .stuff {
-            font-family: 'Bangers', cursive;
-            font-size: 4.5rem;
-            color: #ffffff;
-            text-shadow: 
-                4px 4px 0 #1a5c32,
-                -2px -2px 0 #1a5c32,
-                2px -2px 0 #1a5c32,
-                -2px 2px 0 #1a5c32,
-                0 6px 10px rgba(0,0,0,0.4);
-            letter-spacing: 0.1em;
-            display: block;
-            line-height: 0.9;
-        }
-
-        .logo-text .your {
-            font-family: 'Passion One', cursive;
-            font-size: 3rem;
-            color: #ffd700;
-            text-shadow: 
-                3px 3px 0 #8b4513,
-                -1px -1px 0 #8b4513,
-                1px -1px 0 #8b4513,
-                -1px 1px 0 #8b4513;
-            display: block;
-            margin: -0.3rem 0;
-        }
-
-        .logo-text .stocking {
-            font-family: 'Bangers', cursive;
-            font-size: 4rem;
-            color: #2d8f4e;
-            text-shadow: 
-                3px 3px 0 #ffffff,
-                -2px -2px 0 #ffffff,
-                2px -2px 0 #ffffff,
-                -2px 2px 0 #ffffff,
-                6px 6px 15px rgba(0,0,0,0.3);
-            letter-spacing: 0.05em;
-            display: block;
         }
 
         /* Prize values */
         .prize-value {
-            font-size: 3.2rem;
+            font-size: clamp(2rem, 7vh, 5rem);
             font-weight: 900;
             color: #e63c2f;
             text-shadow: 
@@ -182,7 +61,6 @@
                 1px 1px 0 #ffd700,
                 0 0 20px rgba(255, 100, 50, 0.3);
             transition: all 0.4s ease;
-            line-height: 1.1;
             letter-spacing: 0.02em;
         }
 
@@ -200,23 +78,16 @@
             text-decoration-thickness: 4px;
         }
 
-        /* SVG Stocking */
-        .stocking-svg {
-            width: 220px;
-            height: 280px;
-            margin-bottom: -20px;
-        }
-
         /* Status indicator */
         .status {
             position: fixed;
-            bottom: 15px;
-            right: 140px;
+            bottom: 10px;
+            right: 15px;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4);
             z-index: 100;
             font-family: Arial, sans-serif;
         }
@@ -238,94 +109,16 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
-
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .prize-value {
-                font-size: 2.5rem;
-            }
-            .logo-text .stuff {
-                font-size: 3.5rem;
-            }
-            .logo-text .your {
-                font-size: 2.5rem;
-            }
-            .logo-text .stocking {
-                font-size: 3rem;
-            }
-            .stocking-svg {
-                width: 180px;
-                height: 230px;
-            }
-        }
-
-        @media (max-width: 900px) {
-            .container {
-                padding: 1rem 100px;
-            }
-            .money-border {
-                width: 80px;
-            }
-            .prize-value {
-                font-size: 2rem;
-            }
-        }
     </style>
 </head>
 <body>
-    <!-- Money borders -->
-    <div class="money-border left"></div>
-    <div class="money-border right"></div>
-
     <!-- Main container -->
     <div class="container">
         <!-- Left column - lower values -->
-        <div class="prize-column left" id="leftColumn">
-            <!-- Populated by JS -->
-        </div>
-
-        <!-- Center logo -->
-        <div class="center-logo">
-            <div class="logo-container">
-                <!-- Stocking SVG -->
-                <svg class="stocking-svg" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Stocking body -->
-                    <path d="M40 80 L40 160 Q40 200 70 220 L130 260 Q160 260 170 230 L170 200 Q170 170 140 160 L140 80" 
-                          fill="#c41e3a" stroke="#8b0000" stroke-width="3"/>
-                    <!-- Stocking toe highlight -->
-                    <path d="M70 220 Q90 240 130 255" stroke="#ff6b6b" stroke-width="8" fill="none" opacity="0.3"/>
-                    <!-- White fur cuff -->
-                    <ellipse cx="90" cy="85" rx="60" ry="25" fill="#ffffff"/>
-                    <ellipse cx="90" cy="80" rx="55" ry="20" fill="#f5f5f5"/>
-                    <!-- Fur texture -->
-                    <path d="M35 80 Q45 70 55 82 Q65 68 75 80 Q85 65 95 78 Q105 68 115 82 Q125 70 135 80 Q145 68 150 85" 
-                          stroke="#e8e8e8" stroke-width="3" fill="none"/>
-                    <!-- Money bills sticking out -->
-                    <rect x="50" y="20" width="70" height="35" rx="3" fill="#85bb65" transform="rotate(-15 85 37)"/>
-                    <rect x="55" y="25" width="60" height="25" rx="2" fill="#6b9b4f" transform="rotate(-15 85 37)"/>
-                    <text x="75" y="45" fill="#a8d48a" font-size="12" font-weight="bold" transform="rotate(-15 85 37)">$100</text>
-                    
-                    <rect x="70" y="10" width="70" height="35" rx="3" fill="#85bb65" transform="rotate(5 105 27)"/>
-                    <rect x="75" y="15" width="60" height="25" rx="2" fill="#6b9b4f" transform="rotate(5 105 27)"/>
-                    <text x="95" y="35" fill="#a8d48a" font-size="12" font-weight="bold" transform="rotate(5 105 27)">$100</text>
-                    
-                    <rect x="90" y="5" width="70" height="35" rx="3" fill="#85bb65" transform="rotate(20 125 22)"/>
-                    <rect x="95" y="10" width="60" height="25" rx="2" fill="#6b9b4f" transform="rotate(20 125 22)"/>
-                    <text x="115" y="30" fill="#a8d48a" font-size="12" font-weight="bold" transform="rotate(20 125 22)">$100</text>
-                </svg>
-                
-                <div class="logo-text">
-                    <span class="stuff">STUFF</span>
-                    <span class="your">YOUR</span>
-                    <span class="stocking">STOCKING</span>
-                </div>
-            </div>
-        </div>
+        <div class="prize-column left" id="leftColumn"></div>
 
         <!-- Right column - higher values -->
-        <div class="prize-column right" id="rightColumn">
-            <!-- Populated by JS -->
-        </div>
+        <div class="prize-column right" id="rightColumn"></div>
     </div>
 
     <!-- Status indicator -->
