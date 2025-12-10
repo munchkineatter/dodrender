@@ -24,8 +24,43 @@
             font-family: 'Passion One', cursive;
         }
 
+        /* Snowflakes container */
+        .snowflakes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -20px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.5rem;
+            animation: fall linear infinite;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            user-select: none;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-20px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0.3;
+            }
+        }
+
         /* Main container */
         .container {
+            position: relative;
+            z-index: 10;
             display: flex;
             height: 100vh;
             padding: 3vh 3vw;
@@ -57,10 +92,10 @@
             color: #e63c2f;
             text-shadow: 
                 3px 3px 0 #8b2500,
-                -1px -1px 0 #ffffff,
-                1px -1px 0 #ffffff,
-                -1px 1px 0 #ffffff,
-                1px 1px 0 #ffffff,
+                -1px -1px 0 #ffd700,
+                1px -1px 0 #ffd700,
+                -1px 1px 0 #ffd700,
+                1px 1px 0 #ffd700,
                 0 0 20px rgba(255, 100, 50, 0.3);
             transition: all 0.4s ease;
             letter-spacing: 0.02em;
@@ -114,6 +149,9 @@
     </style>
 </head>
 <body>
+    <!-- Snowflakes background -->
+    <div class="snowflakes" id="snowflakes"></div>
+
     <!-- Main container -->
     <div class="container">
         <div class="prize-column" id="col1"></div>
@@ -142,6 +180,24 @@
         // Format currency
         function formatCurrency(value) {
             return '$' + value.toLocaleString();
+        }
+
+        // Create snowflakes
+        function createSnowflakes() {
+            const container = document.getElementById('snowflakes');
+            const snowflakeChars = ['❄', '❅', '❆', '✻', '✼', '•'];
+            
+            for (let i = 0; i < 60; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.textContent = snowflakeChars[Math.floor(Math.random() * snowflakeChars.length)];
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.fontSize = (Math.random() * 1.5 + 0.5) + 'rem';
+                snowflake.style.animationDuration = (Math.random() * 8 + 6) + 's';
+                snowflake.style.animationDelay = (Math.random() * 10) + 's';
+                snowflake.style.opacity = Math.random() * 0.5 + 0.2;
+                container.appendChild(snowflake);
+            }
         }
 
         // Create prize columns
@@ -215,6 +271,7 @@
         }
 
         // Initialize
+        createSnowflakes();
         createPrizeBoard();
         
         // Poll for updates every 500ms
@@ -223,4 +280,3 @@
     </script>
 </body>
 </html>
-
